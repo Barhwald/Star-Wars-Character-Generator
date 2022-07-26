@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Lato:wght@900&display=swap');
+
+    body, html {
+        box-sizing: border-box
+    }
+
+    body {
+        background-image: url(https://media.contentapi.ea.com/content/dam/star-wars-battlefront-2/images/2020/04/swbf2-1920x1080-march-patch-scarif-vista-nologo.jpg.adapt.crop16x9.575p.jpg);
+        background-size: cover;
+        background-repeat: no-repeat;
+        font-family: 'Lato', sans-serif;
+    }
+
+    h2 {
+        color: white;
+        text-align: center;
+        text-transform: uppercase;
+        font-size: 5vw;
+        text-shadow: 2px 2px 20px black;
+    }
+
+    h2::before {
+        content: '';
+        background: url(https://icons.iconarchive.com/icons/artua/star-wars/256/Clone-Trooper-icon.png);
+        background-position: left;
+        background-repeat: no-repeat;
+        background-size: contain;
+        position: absolute;
+        left: 8vw;
+        width: 5vw;
+        height: 5vw;
+    }
+
+    h2::after {
+        content: '';
+        background: url(https://icons.iconarchive.com/icons/artua/star-wars/256/Clone-Trooper-icon.png);
+        background-position: left;
+        background-repeat: no-repeat;
+        background-size: contain;
+        position: absolute;
+        right: 8vw;
+        width: 5vw;
+        height: 5vw;
+    }
+
+    .big {
+        flex-basis: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 5vw;
+    }
+
+    .container {
+        height: 3rem;
+        line-height: 3rem;
+        flex-basis: 20%;
+        text-align: center;
+        background-color: rgba(238, 229, 225, 0.8);
+        box-shadow: 0 0 1em black;
+    }
+
+    h3 {
+        margin: 0;
+        font-size: 1.75vw;
+        vertical-align: middle;
+    }
+
+    #image {
+        display: block;
+        margin: 0 auto;
+        padding: 5vh 0;
+        height: 10rem;
+        max-width: 8rem;
+    }
+
+    #btn {
+        font-family: 'Lato', sans-serif;
+        display: block;
+        margin: 0 auto;
+        text-transform: uppercase;
+        font-size: 1.25vw;
+        font-weight: 600;
+        border: 1px solid black;
+        box-shadow: 0 0 1em black;
+        background-color: rgba(238, 229, 225, 0.8);
+        padding: 2vh 3.5vw;
+        color: black;
+        text-decoration: none;
+        transition: background-color 0.5s,
+            color 0.5s;
+    }
+
+    #btn:hover {
+        background-color: rgb(105, 95, 95);
+        color: white;
+        border: 1px solid seashell;
+    }
+</style>
+
+<body>
+    <h2>Star Wars hero generator</h2>
+    <div class="big">
+        <div class="container">
+            <h3>Name</h3>
+        </div>
+        <div class="container">
+            <h3>Height (m)</h3>
+        </div>
+        <div class="container">
+            <h3>Mass (kg)</h3>
+        </div>
+        <div class="container">
+            <h3>Gender</h3>
+        </div>
+        <div class="container">
+            <h3 id="name"></h3>
+        </div>
+        <div class="container">
+            <h3 id="height"></h3>
+        </div>
+        <div class="container">
+            <h3 id="mass"></h3>
+        </div>
+        <div class="container">
+            <h3 id="gender"></h3>
+        </div>
+    </div>
+    <div id="image"></div>
+        <button id="btn">Get a new character!</button>
+    <script>
+        const name = document.getElementById("name");
+        const height = document.getElementById("height");
+        const mass = document.getElementById("mass");
+        const gender = document.getElementById("gender");
+        const btn = document.getElementById("btn");
+        const image = document.getElementById("image");
+
+        btn.addEventListener("click", (e) => {
+            e.preventDefault()
+            name.innerText = 'loading...';
+            height.innerText = 'loading...';
+            mass.innerText = 'loading...';
+            gender.innerText = 'loading...';
+            image.innerHTML = 'loading...';
+            const randomChar = Math.ceil(Math.random() * 88);
+            fetch(`https://akabab.github.io/starwars-api/api/id/${randomChar}.json`)
+                .then(response => response.json())
+                .then(hero => {
+                    name.innerText = hero['name'];
+                    height.innerText = hero['height'];
+                    mass.innerText = hero['mass'];
+                    gender.innerText = hero['gender'];
+                    image.innerHTML = `<img src = ${hero['image']} alt = character_photo width = 100%; height = 100%>`;
+                })
+        })
+    </script>
+</body>
+
+</html>
